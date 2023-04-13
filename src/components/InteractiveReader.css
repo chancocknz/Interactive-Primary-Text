@@ -1,0 +1,56 @@
+.interactive-reader {
+  margin: 50px auto;
+  max-width: 800px;
+  line-height: 1.5;
+  font-size: 20px;
+  font-family: "Helvetica Neue", sans-serif;
+  color: #333;
+}
+
+.interactive-reader p {
+  margin: 0 0 20px;
+}
+
+.definition {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.definition p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #666;
+}
+
+.definition strong {
+  font-weight: 700;
+  color: #333;
+}
+
+.toggle-button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.toggle-button.active {
+  background-color: #b8320d;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}

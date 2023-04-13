@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import InteractiveReader from "./components/InteractiveReader";
+import "./App.css";
+import symposiumText from "./material/symposiumText";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const definitions = {
+  Aristophanes:
+    "A Greek playwright of Old Comedy, known for his witty and satirical plays.",
+  Socrates:
+    "A classical Greek philosopher credited as one of the founders of Western philosophy.",
+  banquet: "A formal meal where guests are invited to eat and drink together.",
+};
+
+const App = () => (
+  <div>
+    <InteractiveReader text={symposiumText} definitions={definitions} />
+  </div>
+);
 
 export default App;
