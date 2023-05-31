@@ -1,5 +1,6 @@
 import React from "react";
 import InteractiveReader from "./components/InteractiveReader";
+import Definitions from "./components/Definitions";
 import "./App.css";
 import symposiumText from "./material/symposiumText";
 
@@ -11,10 +12,35 @@ const definitions = {
   banquet: "A formal meal where guests are invited to eat and drink together.",
 };
 
-const App = () => (
-  <div>
-    <InteractiveReader text={symposiumText} definitions={definitions} />
-  </div>
-);
+const App = () => {
+  const [selectedTerms, setSelectedTerms] = React.useState([]);
+
+  const handleTermSelection = (term) => {
+    setSelectedTerms((prevSelectedTerms) => [...prevSelectedTerms, term]);
+  };
+
+  const handleClearDefinitions = () => {
+    setSelectedTerms([]);
+  };
+
+  return (
+    <div className="app">
+      <div className="text-window">
+        <InteractiveReader
+          text={symposiumText}
+          handleTermSelection={handleTermSelection}
+        />
+      </div>
+      <div className="definitions-window">
+        <Definitions selectedTerms={selectedTerms} definitions={definitions} />
+        {selectedTerms.length > 0 && (
+          <button className="button" onClick={handleClearDefinitions}>
+            Clear
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default App;

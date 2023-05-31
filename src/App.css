@@ -1,0 +1,45 @@
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  padding: 50px;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+.text-window {
+  flex: 1;
+  padding-right: 10px;
+  overflow-y: auto;
+  max-height: calc(100vh - 40px); /* Adjust for padding */
+}
+
+.definitions-window {
+  flex: 1;
+  padding-left: 10px;
+  overflow-y: auto;
+  max-height: calc(100vh - 40px); /* Adjust for padding */
+}
+
+.button {
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #45a049;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:active {
+  background-color: #3e8e41;
+}
