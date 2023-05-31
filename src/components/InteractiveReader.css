@@ -11,6 +11,12 @@
   margin: 0 0 20px;
 }
 
+.interactive-reader .word.selected {
+  background-color: #cce5cd;
+  color: #333;
+  font-weight: bold;
+}
+
 .definition {
   background-color: #f7f7f7;
   border: 1px solid #ddd;
@@ -31,7 +37,7 @@
   color: #333;
 }
 
-.toggle-button {
+/* .toggle-button {
   background-color: #4caf50;
   border: none;
   color: white;
@@ -53,4 +59,4 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-}
+} */

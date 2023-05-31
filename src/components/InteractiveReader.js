@@ -3,22 +3,19 @@ import "./InteractiveReader.css";
 
 const InteractiveReader = (props) => {
   const [text, setText] = React.useState(props.text);
-  const [hoverTerm, setHoverTerm] = React.useState(null);
-  const [hoverDef, setHoverDef] = React.useState(null);
-  const [showDefinition, setShowDefinition] = React.useState(true);
+  const [selectedTerm, setSelectedTerm] = React.useState(null);
+  const [selectedDef, setSelectedDef] = React.useState(null);
 
-  const handleMouseEnter = (term, def) => {
-    setHoverTerm(term);
-    setHoverDef(def);
-  };
-
-  const handleMouseLeave = () => {
-    setHoverTerm(null);
-    setHoverDef(null);
-  };
-
-  const toggleDefinition = () => {
-    setShowDefinition(!showDefinition);
+  const handleClick = (term, def) => {
+    if (term === selectedTerm) {
+      // Deselect the term if it's already selected
+      setSelectedTerm(null);
+      setSelectedDef(null);
+    } else {
+      // Select the clicked term and show its definition
+      setSelectedTerm(term);
+      setSelectedDef(def);
+    }
   };
 
   return (
@@ -26,34 +23,27 @@ const InteractiveReader = (props) => {
       <h1>Plato's Symposium</h1>
       {text.map((paragraph, index) => (
         <p key={index}>
-          {paragraph.split(" ").map((word, wordIndex) => (
-            <span
-              key={wordIndex}
-              onMouseEnter={() =>
-                handleMouseEnter(word, props.definitions[word])
-              }
-              onMouseLeave={() => handleMouseLeave()}
-            >
-              {word + " "}
-            </span>
-          ))}
+          {paragraph.split(" ").map((word, wordIndex) => {
+            const isTermSelected = word === selectedTerm;
+            return (
+              <span
+                key={wordIndex}
+                className={`word ${isTermSelected ? "selected" : ""}`}
+                onClick={() => handleClick(word, props.definitions[word])}
+              >
+                {word + " "}
+              </span>
+            );
+          })}
         </p>
       ))}
-      {showDefinition && hoverTerm && (
+      {selectedTerm && (
         <div className="definition">
           <p>
-            <strong>{hoverTerm}:</strong> {hoverDef}
+            <strong>{selectedTerm}:</strong> {selectedDef}
           </p>
         </div>
       )}
-      <div className="button-container">
-        <button
-          className={`toggle-button ${showDefinition ? "active" : ""}`}
-          onClick={toggleDefinition}
-        >
-          {showDefinition ? "Hide" : "Show"} Definitions
-        </button>
-      </div>
     </div>
   );
 };
