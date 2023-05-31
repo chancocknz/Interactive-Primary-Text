@@ -20,30 +20,34 @@ const InteractiveReader = (props) => {
 
   return (
     <div className="interactive-reader">
-      <h1>Plato's Symposium</h1>
-      {text.map((paragraph, index) => (
-        <p key={index}>
-          {paragraph.split(" ").map((word, wordIndex) => {
-            const isTermSelected = word === selectedTerm;
-            return (
-              <span
-                key={wordIndex}
-                className={`word ${isTermSelected ? "selected" : ""}`}
-                onClick={() => handleClick(word, props.definitions[word])}
-              >
-                {word + " "}
-              </span>
-            );
-          })}
-        </p>
-      ))}
-      {selectedTerm && (
-        <div className="definition">
-          <p>
-            <strong>{selectedTerm}:</strong> {selectedDef}
+      <div className="text-window">
+        <h1>Plato's Symposium</h1>
+        {text.map((paragraph, index) => (
+          <p key={index}>
+            {paragraph.split(" ").map((word, wordIndex) => {
+              const isTermSelected = word === selectedTerm;
+              return (
+                <span
+                  key={wordIndex}
+                  className={`word ${isTermSelected ? "selected" : ""}`}
+                  onClick={() => handleClick(word, props.definitions[word])}
+                >
+                  {word + " "}
+                </span>
+              );
+            })}
           </p>
-        </div>
-      )}
+        ))}
+      </div>
+      <div className="definition-window">
+        {selectedTerm && (
+          <div className="definition">
+            <p>
+              <strong>{selectedTerm}:</strong> {selectedDef}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
