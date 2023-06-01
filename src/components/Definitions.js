@@ -4,10 +4,6 @@ import "./Definitions.css";
 const Definitions = (props) => {
   const { selectedTerms, definitions } = props;
 
-  console.log("Definitions here");
-
-  console.log(selectedTerms);
-
   //   if (!selectedTerms || selectedTerms.length === 0) {
   //     return null;
   //   }
