@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-const Generator = ({ term, onDefinitionsGenerated }) => {
+const Generator = ({ term, commonWords, onDefinitionsGenerated }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [cachedDefinitions, setCachedDefinitions] = useState({});
+  const isCommonWord = term && commonWords.includes(term.toLowerCase());
 
   const generateDefinitions = async () => {
     setIsLoading(true);
@@ -41,8 +42,15 @@ const Generator = ({ term, onDefinitionsGenerated }) => {
       return;
     }
 
-    if (term) {
+    if (term && !isCommonWord) {
       generateDefinitions();
+    }
+
+    if (isCommonWord) {
+      onDefinitionsGenerated(
+        term,
+        `${term} is a common word so I decided not to waste energy by generating a definition.`
+      );
     }
   }, [term]);
 

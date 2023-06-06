@@ -4,21 +4,23 @@ import Definitions from "./components/Definitions";
 import Generator from "./components/Generator";
 import "./App.css";
 import symposiumText from "./material/symposiumText";
-
-// const definitions = {
-//   Aristophanes:
-//     "A Greek playwright of Old Comedy, known for his witty and satirical plays.",
-//   Socrates:
-//     "A classical Greek philosopher credited as one of the founders of Western philosophy.",
-//   banquet: "A formal meal where guests are invited to eat and drink together.",
-// };
+import commonWords from "./material/mostCommonWords.json";
 
 const App = () => {
   const [selectedTerms, setSelectedTerms] = React.useState([]);
   const [generatedDefinitions, setGeneratedDefinitions] = React.useState({});
 
   const handleTermSelection = (term) => {
-    setSelectedTerms((prevSelectedTerms) => [...prevSelectedTerms, term]);
+    // Remove punctuation and capitalize the first letter of each word
+    const normalizedTerm = term
+      .replace(/[^\w\s]|_/g, "")
+      .replace(/\s+/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+
+    setSelectedTerms((prevSelectedTerms) => [
+      ...prevSelectedTerms,
+      normalizedTerm,
+    ]);
   };
 
   const handleDefinitionsGenerated = (term, definition) => {
@@ -43,6 +45,7 @@ const App = () => {
       <div className="definitions-window">
         <Generator
           term={selectedTerms[selectedTerms.length - 1]}
+          commonWords={commonWords.commonWords}
           onDefinitionsGenerated={handleDefinitionsGenerated}
         />
         <Definitions

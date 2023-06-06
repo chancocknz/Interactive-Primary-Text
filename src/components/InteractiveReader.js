@@ -8,10 +8,12 @@ const InteractiveReader = (props) => {
     setSelectedTerm(term === selectedTerm ? null : term);
   };
 
+  const paragraphs = props.text.split("\n");
+
   return (
     <div className="interactive-reader">
       <h1>Plato's Symposium</h1>
-      {props.text.map((paragraph, index) => (
+      {paragraphs.map((paragraph, index) => (
         <p key={index}>
           {paragraph.split(" ").map((word, wordIndex) => {
             const isTermSelected = word === selectedTerm;
