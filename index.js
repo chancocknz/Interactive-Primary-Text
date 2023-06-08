@@ -52,7 +52,7 @@ app.post("/", async (req, res) => {
       {
         role: "assistant",
         content:
-          "Alcibiades was a prominent Athenian statesmen and general who was exiled a year after the Symposium supposedly took place. He is very handsome and was in love with Socrates. He makes the seventh and final speech in praise of love (eros)",
+          "Alcibiades was a prominent Athenian statesmen and general who was exiled a year after the Symposium supposedly took place. He is very handsome and was in love with Socrates. He makes the seventh and final speech in praise of Eros (Love)",
       },
       {
         role: "user",

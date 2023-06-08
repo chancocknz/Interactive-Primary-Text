@@ -4,12 +4,6 @@ import "./Definitions.css";
 const Definitions = (props) => {
   const { selectedTerms, definitions } = props;
 
-  //   if (!selectedTerms || selectedTerms.length === 0) {
-  //     return null;
-  //   }
-
-  //   const selectedDef = definitions[selectedTerms];
-
   return (
     <div className="definitions">
       <h3>Definitions</h3>
