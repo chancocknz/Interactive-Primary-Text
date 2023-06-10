@@ -3,6 +3,8 @@
 const OpenAI = require("openai");
 const { Configuration, OpenAIApi } = OpenAI;
 
+require("dotenv").config(); // Load environment variables from .env file
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -11,7 +13,7 @@ const port = 3001;
 
 const configuration = new Configuration({
   organization: "org-OhByKI0AfkLE3sRK4WTN8qbN",
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -19,53 +21,55 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const text = "the Symposium by Plato";
+const categories = `the rest of ${text}, the author's wider works, and Classics generally.`;
 
 app.post("/", async (req, res) => {
-  const { message } = req.body;
+  const term = req.body[0];
+  const paragraph = req.body[1];
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
-        content: `You are a Classics professor who is helping a student without a background in the subject`,
-      },
-      { role: "user", content: `Can you please help me to understand ${text}` },
-      {
-        role: "assistant",
-        content: `Absolutely. ${text} is one of my favourites.`,
+        content: `You are a Classics professor who is helping a student without a background in the subject. You are helping them with ${text} and its key themes and ideas.`,
       },
       {
         role: "user",
-        content:
-          "In 1-3 sentences, can you simply define Cydathenaeum and, if Cydathenaeum is important in the Symposium by Plato, tell me the role that Cydathenaeum plays in the text",
+        content: `In 1-3 sentences, can you simply define Cydathenaeum in this paragraph of ${text}: \
+        "'Certainly not', I said. 'It was actually the man who told Phoenix, someone called Aristodemus of Cydathenaeum, a small man, who never wore any shoes. \ 
+        He had been at the party, and I think there was no more devoted admirer of Socrates at that time. \ 
+        But of course I asked Socrates myself some questions afterwards about what I had heard from Aristodemus, and he confirmed what Aristodemus had said'." \
+        Is there anything important to note about Cydathenaeum in ${categories}? Do not say anything if there is no direct relevance and prioritise it with respect to ${text}.`,
       },
       {
         role: "assistant",
         content:
-          "Cydathenaeum was one of the demes in Ancient Athens. It is not important for the Symposium's overall narrative.",
+          "Cydathenaeum was one of the demes in Ancient Athens and is where Aristodemus was from. It is not important for the Symposium's overall narrative but it was located in the heart of the city and produced various notable people.",
       },
       {
         role: "user",
-        content:
-          "In 1-3 sentences, can you simply define Alcibiades and, if Alcibiades is important in the Symposium by Plato, tell me the role that Alcibiades plays in the text",
+        content: `In 1-3 sentences, can you simply define party in this paragraph of ${text}: \
+        "Don't make fun of me', he said. 'Just tell me when that party took place'."
+        Is there anything important to note about party in ${categories}? Do not say anything if there is no direct relevance and prioritise it with respect to ${text}.`,
       },
       {
         role: "assistant",
         content:
-          "Alcibiades was a prominent Athenian statesmen and general who was exiled a year after the Symposium supposedly took place. He is very handsome and was in love with Socrates. He makes the seventh and final speech in praise of Eros (Love)",
+          "This party references the Symposium (drinking party) held by Agathon to discuss Love (Eros). Symposia were popular among elite Athenians to drink and discuss various topics, which including philosophy.",
       },
+      //   {
+      //     role: "user",
+      //     content:
+      //       "In 1-3 sentences, can you simply define Wait and, if Wait is important in the Symposium by Plato, tell me the role that Wait plays in the text",
+      //   },
+      //   {
+      //     role: "assistant",
+      //     content: "A definition of Wait does not make sense here.",
+      //   },
       {
         role: "user",
-        content:
-          "In 1-3 sentences, can you simply define Wait and, if Wait is important in the Symposium by Plato, tell me the role that Wait plays in the text",
-      },
-      {
-        role: "assistant",
-        content: "A definition of Wait does not make sense here.",
-      },
-      {
-        role: "user",
-        content: `In 1-3 sentences, can you simply define ${message} and, if ${message} is important in ${text}, tell me the role that ${message} plays in the text.`,
+        content: `In 1-3 sentences, can you simply define ${term} in this paragraph of ${text}: ${paragraph}. \
+        Is there anything important to note about ${term} in ${categories}? Do not say anything if there is no direct relevance and prioritise it with respect to ${text}.`,
       },
     ],
     max_tokens: 100,
