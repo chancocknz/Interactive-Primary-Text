@@ -1,86 +1,3 @@
-// import React, { useEffect, useState, useCallback } from "react";
-
-// const Generator = ({
-//   term,
-//   paragraph,
-//   commonWords,
-//   onDefinitionsGenerated,
-// }) => {
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   const [cachedDefinitions, setCachedDefinitions] = useState({});
-//   const isCommonWord = term && commonWords.includes(term.toLowerCase());
-
-//   console.log(paragraph);
-
-//   const generateDefinitions = useCallback(async () => {
-//     setIsLoading(true);
-//     setError(null);
-
-//     try {
-//       const response = await fetch("http://localhost:3001", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ message: term, paragraph }),
-//       });
-
-//       if (response.ok) {
-//         const data = await response.json();
-
-//         // Update cache
-//         setCachedDefinitions({ ...cachedDefinitions, [term]: data.message });
-
-//         onDefinitionsGenerated(term, data.message);
-//       } else {
-//         setError("Failed to generate definitions.");
-//       }
-//     } catch (err) {
-//       setError("An error occurred while generating definitions.");
-//     }
-
-//     setIsLoading(false);
-//   }, [term, paragraph, onDefinitionsGenerated]);
-
-//   useEffect(() => {
-//     // Check if the term already exists in the cache
-//     if (cachedDefinitions.hasOwnProperty(term)) {
-//       onDefinitionsGenerated(term, cachedDefinitions[term]);
-//       setIsLoading(false);
-//       return;
-//     }
-
-//     if (term && !isCommonWord) {
-//       generateDefinitions();
-//     }
-
-//     if (isCommonWord) {
-//       onDefinitionsGenerated(
-//         term,
-//         `${term} is a common word so I decided not to waste energy by generating a definition.`
-//       );
-//     }
-//   }, [
-//     term,
-//     paragraph,
-//     cachedDefinitions,
-//     generateDefinitions,
-//     isCommonWord,
-//     onDefinitionsGenerated,
-//   ]);
-
-//   if (isLoading) {
-//     return <p>Loading definitions...</p>;
-//   }
-
-//   if (error) {
-//     return <p>Error: {error}</p>;
-//   }
-
-//   return null;
-// };
-
-// export default Generator;
-
 import React, { useEffect, useState, useCallback, useRef } from "react";
 
 const Generator = ({
@@ -88,13 +5,16 @@ const Generator = ({
   paragraph,
   commonWords,
   onDefinitionsGenerated,
+  selectedPosition,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [cachedDefinitions, setCachedDefinitions] = useState({});
   const isCommonWord = term && commonWords.includes(term.toLowerCase());
+  const isTooLong = term && term.split(" ").length > 100;
   const prevTermRef = useRef(term);
   const prevParagraphRef = useRef(paragraph);
+  const cacheKey = `${term}:${selectedPosition}`;
 
   const generateDefinitions = useCallback(async () => {
     setIsLoading(true);
@@ -104,7 +24,6 @@ const Generator = ({
       const response = await fetch("http://localhost:3001", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify({ message: [term, paragraph] }),
         body: JSON.stringify([term, paragraph]),
       });
 
@@ -114,7 +33,7 @@ const Generator = ({
         // Update cache
         setCachedDefinitions((prevCache) => ({
           ...prevCache,
-          [term]: data.message,
+          [cacheKey]: data.message,
         }));
 
         onDefinitionsGenerated(term, data.message);
@@ -124,9 +43,8 @@ const Generator = ({
     } catch (err) {
       setError("An error occurred while generating definitions.");
     }
-
     setIsLoading(false);
-  }, [term, paragraph, onDefinitionsGenerated]);
+  }, [term, paragraph, onDefinitionsGenerated, cacheKey]);
 
   useEffect(() => {
     const isTermChanged = prevTermRef.current !== term;
@@ -140,13 +58,13 @@ const Generator = ({
     }
 
     // Check if the term already exists in the cache
-    if (cachedDefinitions.hasOwnProperty(term)) {
-      onDefinitionsGenerated(term, cachedDefinitions[term]);
+    if (cachedDefinitions.hasOwnProperty(cacheKey)) {
+      onDefinitionsGenerated(term, cachedDefinitions[cacheKey]);
       setIsLoading(false);
       return;
     }
 
-    if (term && !isCommonWord) {
+    if (term && !isCommonWord && !isTooLong) {
       generateDefinitions();
     }
 
@@ -156,13 +74,21 @@ const Generator = ({
         `${term} is a common word so I decided not to waste energy by generating a definition.`
       );
     }
+    if (isTooLong) {
+      onDefinitionsGenerated(
+        term,
+        "The passage you have highlighted is over 100 words, try a shorter one."
+      );
+    }
   }, [
     term,
     paragraph,
     cachedDefinitions,
     generateDefinitions,
     isCommonWord,
+    isTooLong,
     onDefinitionsGenerated,
+    cacheKey,
   ]);
 
   if (isLoading) {
