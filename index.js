@@ -72,7 +72,7 @@ app.post("/", async (req, res) => {
         Is there anything important to note about ${term} in ${categories}? Do not say anything if there is no direct relevance and prioritise it with respect to ${text}.`,
       },
     ],
-    max_tokens: 100,
+    max_tokens: 150,
     temperature: 0,
   });
   console.log(response.data);
