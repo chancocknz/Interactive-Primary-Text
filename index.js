@@ -55,7 +55,7 @@ app.post("/", async (req, res) => {
       {
         role: "assistant",
         content:
-          "This party references the Symposium (drinking party) held by Agathon to discuss Love (Eros). Symposia were popular among elite Athenians to drink and discuss various topics, which including philosophy.",
+          "This party references the Symposium (drinking party) held by Agathon to discuss Love (Eros). Symposia were popular among elite Athenians to drink and discuss various topics, which include philosophy.",
       },
       //   {
       //     role: "user",
