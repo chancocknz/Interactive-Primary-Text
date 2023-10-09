@@ -22,7 +22,7 @@ const Generator = ({
 
     try {
       // const response = await fetch("http://localhost:3001", {
-      const response = await fetch("http://172.31.6.21:80", {
+      const response = await fetch("http://172.31.6.21:3001", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify([term, paragraph]),
