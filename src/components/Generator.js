@@ -21,7 +21,8 @@ const Generator = ({
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3001", {
+      // const response = await fetch("http://localhost:3001", {
+      const response = await fetch("http://13.55.59.131:3001", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify([term, paragraph]),

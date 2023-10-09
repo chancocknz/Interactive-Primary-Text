@@ -11,6 +11,12 @@ const cors = require("cors");
 const app = express();
 const port = 3001;
 
+app.use(
+  cors({
+    origin: "http://symposium-ai-tool.s3-website-ap-southeast-2.amazonaws.com",
+  })
+);
+
 const configuration = new Configuration({
   organization: "org-OhByKI0AfkLE3sRK4WTN8qbN",
   apiKey: process.env.OPENAI_API_KEY,
