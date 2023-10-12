@@ -63,15 +63,6 @@ app.post("/", async (req, res) => {
         content:
           "This party references the Symposium (drinking party) held by Agathon to discuss Love (Eros). Symposia were popular among elite Athenians to drink and discuss various topics, which include philosophy.",
       },
-      //   {
-      //     role: "user",
-      //     content:
-      //       "In 1-3 sentences, can you simply define Wait and, if Wait is important in the Symposium by Plato, tell me the role that Wait plays in the text",
-      //   },
-      //   {
-      //     role: "assistant",
-      //     content: "A definition of Wait does not make sense here.",
-      //   },
       {
         role: "user",
         content: `In 1-3 sentences, can you simply define ${term} in this paragraph of ${text}: ${paragraph}. \
